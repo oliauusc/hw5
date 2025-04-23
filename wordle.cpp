@@ -73,5 +73,5 @@ void wordleHelper(
         }
         currentWord[index] = '-';
     }
-
+}
     
