@@ -13,6 +13,15 @@ using namespace std;
 
 
 // Add prototypes of helper functions here
+// int checkFloats(std::string& currentWord, const std::string& floating) 
+// {
+//     int floatsNotIn;
+//     for (int i = 0; i<floating.size(); i++) {
+//         if (currentWord.find(floating[i]) == -1) floatsNotIn++;
+//     } 
+//     return floatsNotIn;
+// }
+
 void wordleHelper(std::string&,
     const std::string& ,
     const std::set<std::string>&,
@@ -48,12 +57,12 @@ void wordleHelper(
 
         for (int i = 0; i<floating.size(); i++) {
             floatIn = tempWord.find(floating[i]);
-            if (floatIn == -1) break;
+            if (floatIn == -1) return;
             else tempWord[floatIn] = '1';
         }
         // std::cout << floatIn << " " << currentWord;
 
-        if ((floatIn != -1) && (dict.find(currentWord) != dict.end()))
+        if ((dict.find(currentWord) != dict.end()))
             answers.insert(currentWord);
         
         return;
@@ -67,7 +76,24 @@ void wordleHelper(
         for (char letter = 'a'; letter <= 'z'; ++letter)
         {
             currentWord[index] = letter;
-            wordleHelper(currentWord, floating, dict, answers, index + 1);
+
+            int floatsNotIn = 0;
+            int lettersNotIn = 0;
+
+
+
+            for (int i = 0; i<floating.size(); i++) {
+            if (currentWord.find(floating[i]) == -1) floatsNotIn++;
+            }   
+
+            for (int i = 0; i<currentWord.size(); i++) {
+            if (currentWord[i] == '-') lettersNotIn++;
+            } 
+
+            if (lettersNotIn < floatsNotIn)
+            continue;
+
+            else wordleHelper(currentWord, floating, dict, answers, index + 1);
 
             // std::cout << "next";
         }
